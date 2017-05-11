@@ -1,0 +1,21 @@
+<h2>Expense Details</h2>
+
+<label>Apply Date Filter - <input type="checkbox" [(ngModel)]="dateFilter.isActive"></label>
+<br>
+<div *ngIf="dateFilter.isActive">
+  <select [(ngModel)]="dateFilter.dateFilterType">
+  <option *ngFor="let dateOption of dateOptions" [value]="dateOption.key">{{dateOption.value}}</option>
+  </select>
+  <button (click)="applyFilter()">Apply</button>
+</div>
+<div>
+  <h3>You spent : {{totalSpent}}</h3>
+</div>
+
+<div>
+  <ul>
+    <li *ngFor="let order of orders">
+      Date: {{order.date | date}} <br> Amount: {{order.amount}} <br> Vendor: {{order.vendor}} <br>
+    </li>
+  </ul>
+</div>

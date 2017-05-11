@@ -4,17 +4,22 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { CafeteriaExpenseTrackerComponent } from './cafeteria-expense-tracker/cafeteria-expense-tracker.component';
+import { CafeteriaExpenseService } from 'app/services/cafeteria-expense.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CafeteriaExpenseTrackerComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [
+    CafeteriaExpenseService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
