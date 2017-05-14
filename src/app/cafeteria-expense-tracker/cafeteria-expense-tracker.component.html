@@ -1,21 +1,34 @@
-<h2>Expense Details</h2>
-
-<label>Apply Date Filter - <input type="checkbox" [(ngModel)]="dateFilter.isActive"></label>
-<br>
-<div *ngIf="dateFilter.isActive">
-  <select [(ngModel)]="dateFilter.dateFilterType">
-  <option *ngFor="let dateOption of dateOptions" [value]="dateOption.key">{{dateOption.value}}</option>
-  </select>
-  <button (click)="applyFilter()">Apply</button>
-</div>
-<div>
-  <h3>You spent : {{totalSpent}}</h3>
-</div>
-
-<div>
-  <ul>
-    <li *ngFor="let order of orders">
-      Date: {{order.date | date}} <br> Amount: {{order.amount}} <br> Vendor: {{order.vendor}} <br>
-    </li>
-  </ul>
-</div>
+<md-sidenav-container>
+  <md-sidenav mode="over" #sidenav opened>
+    <md-slide-toggle (change)="dateFilter.isActive = !dateFilter.isActive; applyFilter()" labelPosition="before">
+      Filter by date
+    </md-slide-toggle>
+    <br>
+    <md-select placeholder="Select" [(ngModel)]="dateFilter.dateFilterType" [disabled]="!dateFilter.isActive" (change)="applyFilter()">
+      <md-option *ngFor="let dateOption of dateOptions" [value]="dateOption.key">
+        {{dateOption.value}}
+      </md-option>
+    </md-select>
+    <br>
+    <button md-raised-button class="example-fab" (click)="sidenav.close()">
+    Close
+  </button>
+  </md-sidenav>
+  <button *ngIf="!sidenav.opened" class="example-fab" (click)="sidenav.toggle()" md-raised-button>
+    Filters
+  </button>
+  <div>
+    <h2 class="total-amount-spent">You have spent  ₹{{totalSpent}}</h2>
+    <md-list *ngFor="let group of groupedOrders">
+      <h3 class="order-date" md-subheader>
+        {{group.orders[0].date | date}} - ₹{{group.dateTotal}}
+      </h3>
+      <md-list-item *ngFor="let order of group.orders">
+        <span class="order-time">{{order.date | date:'shortTime'}}</span>
+        <p class="order-amount" md-line>₹{{order.amount}}</p>
+        <p class="order-vendor" md-line>{{order.vendor}} </p>
+      </md-list-item>
+      <md-divider></md-divider>
+    </md-list>
+  </div>
+</md-sidenav-container>
