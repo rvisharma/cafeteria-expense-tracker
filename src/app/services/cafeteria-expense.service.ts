@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 
 export interface DateFilter {
   isActive: boolean;
-  dateFilterType: 'single-date' | 'multi-date' | 'current-month' | 'previous-month' | 'last-30-days' | 'today' | 'yesterday';
+  dateFilterType: 'single-date' | 'current-month' | 'previous-month' | 'last-30-days' | 'today' | 'yesterday';
   singleDate: Date;
   multiDates: Date[];
 }
@@ -68,6 +68,14 @@ export class CafeteriaExpenseService {
   }
 
 
+  getDateOptions = () => [
+    { key: 'today', value: 'Today' },
+    { key: 'yesterday', value: 'Yesterday' },
+    { key: 'current-month', value: 'Current Month' },
+    { key: 'previous-month', value: 'Previous Month' },
+    { key: 'single-date', value: 'Date' },
+    { key: 'last-30-days', value: 'Last 30 Days' },
+  ];
 
   applyDateFilter = (orders: Order[], dateFilter: DateFilter) => {
     if (dateFilter.isActive) {
@@ -107,7 +115,6 @@ export class CafeteriaExpenseService {
           return orders;
       }
     }
-    console.log(orders.length);
     return orders;
   }
 
@@ -146,4 +153,28 @@ export class CafeteriaExpenseService {
 
   setDateFilter = (dateFilter: DateFilter) => this.trackerConfig.filter.dateFilter = dateFilter;
 
+  getMaxVendorName = (orders: Order[]) => {
+    const counter: { [vendor: string]: number } = {};
+    orders.forEach(element => {
+      if (counter[element.vendor]) {
+        counter[element.vendor]++;
+      } else {
+        counter[element.vendor] = 1;
+      }
+    });
+    const max = {
+      vendor: '',
+      count: 0
+    }
+    _.keys(counter)
+      .forEach(k => {
+        if (max.count < counter[k]) {
+          max.vendor = k;
+          max.count = counter[k]
+        }
+      });
+    console.log(counter);
+    console.log(max);
+    return max.vendor;
+  }
 }

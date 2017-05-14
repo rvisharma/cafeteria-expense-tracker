@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MaterialModule } from '@angular/material';
+import { MaterialModule, MdNativeDateModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -9,7 +9,8 @@ import { MaterialModule } from '@angular/material';
     MaterialModule
   ],
   exports: [
-    MaterialModule
+    MaterialModule,
+    MdNativeDateModule
   ]
 })
 export class CustomMaterialModule { }

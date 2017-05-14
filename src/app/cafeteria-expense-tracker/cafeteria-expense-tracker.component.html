@@ -1,34 +1,127 @@
-<md-sidenav-container>
-  <md-sidenav mode="over" #sidenav opened>
-    <md-slide-toggle (change)="dateFilter.isActive = !dateFilter.isActive; applyFilter()" labelPosition="before">
-      Filter by date
-    </md-slide-toggle>
-    <br>
-    <md-select placeholder="Select" [(ngModel)]="dateFilter.dateFilterType" [disabled]="!dateFilter.isActive" (change)="applyFilter()">
-      <md-option *ngFor="let dateOption of dateOptions" [value]="dateOption.key">
-        {{dateOption.value}}
-      </md-option>
-    </md-select>
-    <br>
-    <button md-raised-button class="example-fab" (click)="sidenav.close()">
-    Close
-  </button>
-  </md-sidenav>
-  <button *ngIf="!sidenav.opened" class="example-fab" (click)="sidenav.toggle()" md-raised-button>
-    Filters
-  </button>
-  <div>
-    <h2 class="total-amount-spent">You have spent  ₹{{totalSpent}}</h2>
-    <md-list *ngFor="let group of groupedOrders">
-      <h3 class="order-date" md-subheader>
-        {{group.orders[0].date | date}} - ₹{{group.dateTotal}}
-      </h3>
-      <md-list-item *ngFor="let order of group.orders">
-        <span class="order-time">{{order.date | date:'shortTime'}}</span>
-        <p class="order-amount" md-line>₹{{order.amount}}</p>
-        <p class="order-vendor" md-line>{{order.vendor}} </p>
-      </md-list-item>
-      <md-divider></md-divider>
-    </md-list>
+<section class="header">
+  <md-toolbar color="primary">
+    <span>Cafeteria Expense Tracker</span>
+  </md-toolbar>
+</section>
+<section class="container">
+  <md-sidenav-container>
+    <md-sidenav mode="push" #sidenav (close-start)="applyFilter()">
+      <section class="sidebar-container">
+        <div class="date-filter">
+          <div class="date-filter-toggle">
+            <md-slide-toggle labelPosition="before" [(ngModel)]="dateFilter.isActive">
+              Filter by date
+            </md-slide-toggle>
+          </div>
+          <div class="date-filter-select" *ngIf="dateFilter.isActive">
+            <md-select placeholder="Select" [(ngModel)]="dateFilter.dateFilterType" [disabled]="!dateFilter.isActive">
+              <md-option *ngFor="let dateOption of dateOptions" [value]="dateOption.key">
+                {{dateOption.value}}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="date-filter-datepicker" *ngIf="dateFilter.isActive && dateFilter.dateFilterType === 'single-date'">
+            <md-input-container>
+              <input mdInput [mdDatepicker]="picker" readonly (click)="picker.open()" placeholder="Choose a date" [disabled]="!dateFilter.isActive"
+                [(ngModel)]="dateFilter.singleDate">
+              <button mdSuffix [mdDatepickerToggle]="picker" [disabled]="!dateFilter.isActive"></button>
+            </md-input-container>
+            <md-datepicker #picker></md-datepicker>
+          </div>
+        </div>
+        <div class="vendor-filter"></div>
+        <div class="sidebar-action">
+          <button md-button class="example-fab" (click)="sidenav.close()">
+        Close
+      </button>
+        </div>
+      </section>
+
+    </md-sidenav>
+    <section class="content">
+      <div class="transaction-list-container">
+        <h2 class="summary">{{summary}}</h2>
+        <div class="transaction-list" *ngIf="groupedOrders.length">
+          <md-list *ngFor="let group of groupedOrders">
+            <h3 class="order-date" md-subheader>
+              {{group.orders[0].date | date}} - ₹{{group.dateTotal}}
+            </h3>
+            <md-list-item *ngFor="let order of group.orders">
+              <span class="order-time">{{order.date | date:'shortTime'}}</span>
+              <p class="order-amount" md-line>₹{{order.amount}}</p>
+              <p class="order-vendor" md-line>{{order.vendor}} </p>
+            </md-list-item>
+            <md-divider></md-divider>
+          </md-list>
+        </div>
+      </div>
+      <div class="transaction-card-container">
+        <md-card>
+          <md-card-title-group>
+            <md-card-title>Total Expenditure</md-card-title>
+            <md-card-subtitle>You spent total amount of</md-card-subtitle>
+          </md-card-title-group>
+          <md-card-content>
+            ₹{{totalSpent}}
+          </md-card-content>
+          <md-card-actions align="end">
+            <button md-button >Visualize</button>
+          </md-card-actions>
+        </md-card>
+        <md-card>
+          <md-card-title-group>
+            <md-card-title>Most Frequent Vendor</md-card-title>
+            <md-card-subtitle>You most of the times went to</md-card-subtitle>
+          </md-card-title-group>
+          <md-card-content>
+            {{getMaxVendorName()}}
+          </md-card-content>
+          <md-card-actions align="end">
+            <button md-button >Visualize</button>
+          </md-card-actions>
+        </md-card>
+        <md-card>
+          <md-card-title-group>
+            <md-card-title>Total Expenditure</md-card-title>
+            <md-card-subtitle>You spent total amount of</md-card-subtitle>
+          </md-card-title-group>
+          <md-card-content>
+            ₹{{totalSpent}}
+          </md-card-content>
+          <md-card-actions align="end">
+            <button md-button >Visualize</button>
+          </md-card-actions>
+        </md-card>
+        <md-card>
+          <md-card-title-group>
+            <md-card-title>Total Expenditure</md-card-title>
+            <md-card-subtitle>You spent total amount of</md-card-subtitle>
+          </md-card-title-group>
+          <md-card-content>
+            ₹{{totalSpent}}
+          </md-card-content>
+          <md-card-actions align="end">
+            <button md-button >Visualize</button>
+          </md-card-actions>
+        </md-card>
+        <md-card>
+          <md-card-title-group>
+            <md-card-title>Total Expenditure</md-card-title>
+            <md-card-subtitle>You spent total amount of</md-card-subtitle>
+          </md-card-title-group>
+          <md-card-content>
+            ₹{{totalSpent}}
+          </md-card-content>
+          <md-card-actions align="end">
+            <button md-button >Visualize</button>
+          </md-card-actions>
+        </md-card>
+      </div>
+    </section>
+  </md-sidenav-container>
+  <div class="fab">
+    <button md-fab *ngIf="!sidenav.opened" (click)="sidenav.toggle()" md-raised-button>
+      Filter
+      </button>
   </div>
-</md-sidenav-container>
+</section>

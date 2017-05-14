@@ -1,24 +1,77 @@
-.order-time{
-  font-size: 12px;
-  font-weight: lighter !important;
-  width: 20%;
+.header{
+  height: 10vh;
 }
 
-.order-amount{
-  font-size: 20px !important;
-  font-weight: 400 !important;
+
+.sidebar-container{
+  width: 25vw;
+  padding: 16px;
+
+  .date-filter,
+  .date-filter-toggle,
+  .date-filter-select,
+  .date-filter-datepicker{
+    padding: 16px 0;
+  }
 }
 
-.order-vendor{
-  font-weight: lighter !important;
+
+.content{
+  display: flex;
+
+  .transaction-list-container{
+    height: 90vh;
+    width: 30vw;
+
+    .summary{
+      padding: 0 16px;
+      margin: 10px 0;
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    .transaction-list{
+      box-shadow: inset 0 1px 6px rgba(0,0,0,0.3);
+      overflow-y: auto;
+      height: 92%;
+
+      .order-date{
+        font-weight: bold !important;
+        font-size: 20px !important;
+      }
+
+      .order-time{
+        font-size: 12px;
+        font-weight: lighter !important;
+        width: 20%;
+      }
+
+      .order-amount{
+        font-size: 20px !important;
+        font-weight: 400 !important;
+      }
+
+      .order-vendor{
+        font-weight: lighter !important;
+      }
+    }
+  }
+
+  .transaction-card-container{
+    display: flex;
+    padding: 16px;
+    justify-content: space-between;
+    align-content: space-around;
+    flex-wrap: wrap;
+    md-card{
+      margin: 0 8px;
+      max-height: 150px;
+    }
+  }
 }
 
-.order-date{
-  font-weight: bold !important;
-  font-size: 20px !important;
-}
-
-.total-amount-spent{
-  padding: 10px 16px;
-  font-family: 'Roboto'
+.fab {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
 }
